@@ -48,9 +48,9 @@ def getLatLng(loc = None, url = 'https://maps.google.com/maps/api/geocode/json?a
         # Read page as json
         latlng = json.loads(html)
 
-        # If page is empty (Reached google api limit) return empty list.
+        # If page is empty (api throws an error) raise error.
         if latlng['results'] == []:
-            return(None)
+            raise ValueError(f"{latlng['error_message']}; status: {latlng['status']}")
         lat = latlng['results'][0]['geometry']['location']['lat']
         lng = latlng['results'][0]['geometry']['location']['lng']
 
